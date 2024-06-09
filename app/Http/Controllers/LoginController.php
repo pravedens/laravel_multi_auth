@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
@@ -32,6 +34,35 @@ class LoginController extends Controller
 
         } else {
             return redirect()->route('account.login')
+            ->withInput()
+            ->withErrors($validator);
+        }
+    }
+
+    // Метод покажет страницу регистрации
+    public function register() {
+        return view('register');
+    }
+
+    public function processRegister(Request $request) {
+        $validator = Validator::make($request->all(),[
+            'email' => 'required|email|unique:users',
+            'password' => 'required|confirmed'
+        ]);
+
+        if ($validator->passes()) {
+
+            $user = new User();
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->password = Hash::make($request->password);
+            $user->role = 'customer';
+            $user->save();
+
+            return redirect()->route('account.login')->with('success', 'Вы успешно зарегистрировались');
+
+        } else {
+            return redirect()->route('account.register')
             ->withInput()
             ->withErrors($validator);
         }
