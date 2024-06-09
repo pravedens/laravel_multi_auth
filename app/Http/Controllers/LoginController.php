@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -23,10 +24,17 @@ class LoginController extends Controller
 
         if ($validator->passes()) {
 
+            if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+
+            } else {
+                return redirect()->route('account.login')->with('Неверный адрес электронной почты или пароль.');
+            }
+
         } else {
             return redirect()->route('account.login')
             ->withInput()
             ->withErrors($validator);
         }
     }
+
 }
