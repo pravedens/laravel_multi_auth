@@ -27,9 +27,10 @@ class LoginController extends Controller
         if ($validator->passes()) {
 
             if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+                return redirect()->route('account.dashboard');
 
             } else {
-                return redirect()->route('account.login')->with('Неверный адрес электронной почты или пароль.');
+                return redirect()->route('account.login')->with('error', 'Неверный адрес электронной почты или пароль.');
             }
 
         } else {
@@ -66,6 +67,11 @@ class LoginController extends Controller
             ->withInput()
             ->withErrors($validator);
         }
+    }
+
+    public function logout() {
+        Auth::logout();
+        return redirect()->route('account.login');
     }
 
 }
