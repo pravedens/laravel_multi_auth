@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\admin\LoginController as AdminLoginController;
+use App\Http\Controllers\admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
@@ -20,4 +22,8 @@ Route::group(['prefix' => 'account'], function() {
         Route::get('dashboard', [DashboardController::class, 'index'])->name('account.dashboard');
     });
 });
+
+Route::get('admin/login', [AdminLoginController::class, 'index'])->name('admin.login');
+Route::get('admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
+Route::post('admin/authenticate', [AdminLoginController::class, 'authenticate'])->name('admin.authenticate');
 
