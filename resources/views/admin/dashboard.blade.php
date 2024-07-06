@@ -26,10 +26,10 @@
                     <ul class="navbar-nav justify-content-end flex-grow-1">
                         
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#!" id="accountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Hello, {{ Auth::user() }}</a>
+                            <a class="nav-link dropdown-toggle" href="#!" id="accountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Hello, {{ Auth::guard('admin')->user()->name }}</a>
                             <ul class="dropdown-menu border-0 shadow bsb-zoomIn" aria-labelledby="accountDropdown">                          
                                 <li>
-                                    <a class="dropdown-item" href="{{ route('account.logout') }}">Logout</a>
+                                    <a class="dropdown-item" href="{{ route('admin.logout') }}">Logout</a>
                                 </li>
                             </ul>
                         </li>

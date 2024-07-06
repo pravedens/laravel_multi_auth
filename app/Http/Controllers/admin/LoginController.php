@@ -24,6 +24,11 @@ class LoginController extends Controller
         if ($validator->passes()) {
 
             if (Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password])) {
+
+                if (Auth::guard('admin')->user()->role != "admin") {
+                    Auth::guard('admin')->logout();
+                    return redirect()->route('admin.login')->with('error', 'Вы не авторизованы для доступа на эту страницу');
+                }
                 return redirect()->route('admin.dashboard');
 
             } else {
@@ -35,5 +40,10 @@ class LoginController extends Controller
             ->withInput()
             ->withErrors($validator);
         }
+    }
+
+    public function logout() {
+        Auth::guard('admin')->logout();
+        return redirect()->route('admin.login');
     }
 }

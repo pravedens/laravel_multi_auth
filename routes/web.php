@@ -26,4 +26,5 @@ Route::group(['prefix' => 'account'], function() {
 Route::get('admin/login', [AdminLoginController::class, 'index'])->name('admin.login');
 Route::get('admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
 Route::post('admin/authenticate', [AdminLoginController::class, 'authenticate'])->name('admin.authenticate');
+Route::get('admin/logout', [AdminLoginController::class, 'logout'])->name('admin.logout');
 
